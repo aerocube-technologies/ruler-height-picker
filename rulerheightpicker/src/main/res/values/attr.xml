@@ -4,10 +4,14 @@
     <attr name="max_value" format="integer" />
     <attr name="ruler_multiple_size" format="float" />
     <attr name="value_multiple" format="integer" />
+    <attr name="value_type_multiple" format="integer" />
+    <attr name="matric" format="boolean"/>
     <declare-styleable name="AeroRulerHeightPicker">
         <attr name="min_value"/>
         <attr name="max_value" />
         <attr name="ruler_multiple_size" />
         <attr name="value_multiple"/>
+        <attr name="value_type_multiple"/>
+        <attr name="matric"/>
     </declare-styleable>
 </resources>

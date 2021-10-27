@@ -38,6 +38,8 @@ public class AeroRulerHeightPicker extends FrameLayout {
 
     private int valueTypeMultiple = 5;
 
+    private boolean matric=true;
+
     public AeroRulerHeightPicker(Context context) {
         super(context);
         init(context,null);
@@ -63,35 +65,7 @@ public class AeroRulerHeightPicker extends FrameLayout {
         mScrollView.setOnScrollChangedListener(onScrollChangedListenerVertical);
     }
 
-    public void setMaxValue(float minValue, float maxValue) {
-        setMaxValue(minValue, maxValue, 1);
-    }
 
-    public void setMaxValue(float minValue, float maxValue, int valueMultiple) {
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.valueMultiple = valueMultiple;
-        aeroRulerView.setMaxValue(this.maxValue);
-        aeroRulerView.setMinValue(this.minValue);
-        aeroRulerView.setValueMultiple(this.valueMultiple);
-    }
-
-    public void setValueTypeMultiple(int valueTypeMultiple) {
-        this.valueMultiple = valueTypeMultiple;
-        aeroRulerView.setMultipleTypeValue(valueTypeMultiple);
-    }
-
-    public void setViewMultipleSize(float size) {
-        this.viewMultipleSize = size;
-    }
-
-    public void setInitValue(float initValue) {
-        this.initValue = initValue;
-    }
-
-    public float getViewMultipleSize() {
-        return this.viewMultipleSize;
-    }
 
 
     private void init(Context context,@Nullable AttributeSet attrs) {
@@ -111,12 +85,21 @@ public class AeroRulerHeightPicker extends FrameLayout {
                     maxValue = a.getInteger(R.styleable.AeroRulerHeightPicker_max_value, 100);
                 }
 
+                //space between line
                 if (a.hasValue(R.styleable.AeroRulerHeightPicker_ruler_multiple_size)) {
                     viewMultipleSize= a.getFloat(R.styleable.AeroRulerHeightPicker_ruler_multiple_size, 3f);
                 }
 
                 if (a.hasValue(R.styleable.AeroRulerHeightPicker_value_multiple)) {
-                    maxValue = a.getInteger(R.styleable.AeroRulerHeightPicker_value_multiple, 1);
+                    valueMultiple = a.getInteger(R.styleable.AeroRulerHeightPicker_value_multiple, 1);
+                }
+
+                if (a.hasValue(R.styleable.AeroRulerHeightPicker_value_type_multiple)) {
+                    valueTypeMultiple = a.getInteger(R.styleable.AeroRulerHeightPicker_value_type_multiple, 5);
+                }
+
+                if (a.hasValue(R.styleable.AeroRulerHeightPicker_matric)) {
+                    matric = a.getBoolean(R.styleable.AeroRulerHeightPicker_matric, true);
                 }
             }finally {
                 a.recycle();
@@ -144,6 +127,11 @@ public class AeroRulerHeightPicker extends FrameLayout {
         container.addView(mTopSpacer, 0);
         container.addView(mBottomSpacer);
 
+        aeroRulerView.setMaxValue(this.maxValue);
+        aeroRulerView.setMinValue(this.minValue);
+        aeroRulerView.setValueMultiple(this.valueMultiple);
+        aeroRulerView.setMultipleTypeValue(valueTypeMultiple);
+        aeroRulerView.setMatric(matric);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -205,12 +193,22 @@ public class AeroRulerHeightPicker extends FrameLayout {
     }
 
 
+
+
+
+    public void setInitValue(float initValue) {
+        this.initValue = initValue;
+    }
+
+
+
     public float getMaxValue() {
         return maxValue;
     }
 
     public void setMaxValue(float maxValue) {
         this.maxValue = maxValue;
+        aeroRulerView.setMaxValue(this.maxValue);
     }
 
     public float getMinValue() {
@@ -219,6 +217,15 @@ public class AeroRulerHeightPicker extends FrameLayout {
 
     public void setMinValue(float minValue) {
         this.minValue = minValue;
+        aeroRulerView.setMinValue(this.minValue);
+    }
+
+    public float getViewMultipleSize() {
+        return this.viewMultipleSize;
+    }
+
+    public void setViewMultipleSize(float size) {
+        this.viewMultipleSize = size;
     }
 
     public int getValueMultiple() {
@@ -227,9 +234,15 @@ public class AeroRulerHeightPicker extends FrameLayout {
 
     public void setValueMultiple(int valueMultiple) {
         this.valueMultiple = valueMultiple;
+        aeroRulerView.setValueMultiple(this.valueMultiple);
     }
 
     public int getValueTypeMultiple() {
         return valueTypeMultiple;
+    }
+
+    public void setValueTypeMultiple(int valueTypeMultiple) {
+        this.valueTypeMultiple = valueTypeMultiple;
+        aeroRulerView.setMultipleTypeValue(valueTypeMultiple);
     }
 }

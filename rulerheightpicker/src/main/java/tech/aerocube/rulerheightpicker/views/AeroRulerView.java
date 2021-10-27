@@ -46,6 +46,8 @@ public class AeroRulerView extends View {
     private int shortWidthRatio = 5;
     private int baseWidthRatio = 2;
 
+    private boolean matric=true;
+
 
     public AeroRulerView(Context context) {
         super(context);
@@ -97,6 +99,11 @@ public class AeroRulerView extends View {
         return this;
     }
 
+    public AeroRulerView setMatric(boolean matric) {
+        this.matric = matric;
+        return this;
+    }
+
     public AeroRulerView setMinValue(float minValue) {
         this.MIN_DATA = minValue;
         return this;
@@ -130,7 +137,7 @@ public class AeroRulerView extends View {
             if (displayNumberType == DISPLAY_NUMBER_TYPE_MULTIPLE) {
                 if (((int) (i + MIN_DATA) * valueMultiple) % valueTypeMultiple == 0) {
                     canvas.drawLine(endpoint, viewInterval * i,  endpoint- viewWidth / shortWidthRatio * baseWidthRatio,viewInterval * i, paintLong);
-                    canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/12,  endpoint- viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
+                    canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/(matric?1:12),  endpoint- viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
                 } else {
                     canvas.drawLine( endpoint,viewInterval * i,  endpoint-viewWidth / longWidthRatio * baseWidthRatio,viewInterval * i, paint);
                 }
@@ -138,7 +145,7 @@ public class AeroRulerView extends View {
             } else {
                 if (i % 5 == 0) {
                     canvas.drawLine( endpoint, viewInterval * i, endpoint-viewWidth / shortWidthRatio * baseWidthRatio,viewInterval * i, paintLong);
-                    canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/12,  endpoint-viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
+                    canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/(matric?1:12),  endpoint-viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
                 } else {
                     canvas.drawLine(endpoint, viewInterval * i,  endpoint-viewWidth / longWidthRatio * baseWidthRatio,viewInterval * i, paint);
                 }
