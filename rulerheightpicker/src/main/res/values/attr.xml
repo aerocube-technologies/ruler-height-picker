@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="min_value" format="integer" />
+    <attr name="max_value" format="integer" />
+    <attr name="ruler_multiple_size" format="float" />
+    <attr name="value_multiple" format="integer" />
+    <declare-styleable name="AeroRulerHeightPicker">
+        <attr name="min_value"/>
+        <attr name="max_value" />
+        <attr name="ruler_multiple_size" />
+        <attr name="value_multiple"/>
+    </declare-styleable>
+</resources>
