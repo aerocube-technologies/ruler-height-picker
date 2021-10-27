@@ -16,6 +16,7 @@
         app:min_value="100"
         app:max_value="250"
         app:value_multiple="5"
+        app:ruler_multiple_size="2.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

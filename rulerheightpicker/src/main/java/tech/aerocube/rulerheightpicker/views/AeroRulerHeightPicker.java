@@ -203,4 +203,33 @@ public class AeroRulerHeightPicker extends FrameLayout {
 
         }
     }
+
+
+    public float getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(float maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public float getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(float minValue) {
+        this.minValue = minValue;
+    }
+
+    public int getValueMultiple() {
+        return valueMultiple;
+    }
+
+    public void setValueMultiple(int valueMultiple) {
+        this.valueMultiple = valueMultiple;
+    }
+
+    public int getValueTypeMultiple() {
+        return valueTypeMultiple;
+    }
 }

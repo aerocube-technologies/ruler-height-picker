@@ -25,9 +25,6 @@ import tech.aerocube.rulerheightpicker.views.ObservableScrollView;
 public class MainActivity extends AppCompatActivity {
     private AeroRulerHeightPicker myScrollingValuePicker;
 
-    private static final float MIN_VALUE = 40;
-    private static final float MAX_VALUE = 128;
-    private static final float LINE_RULER_MULTIPLE_SIZE = 2f;
     private TextView rulerText;
     private View indicator;
     private int scrollHeight =0;
@@ -49,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initRulerView() {
         myScrollingValuePicker = findViewById(R.id.myScrollingValuePicker);
-        myScrollingValuePicker.setViewMultipleSize(LINE_RULER_MULTIPLE_SIZE);
-        myScrollingValuePicker.setMaxValue(MIN_VALUE, MAX_VALUE);
-        myScrollingValuePicker.setValueTypeMultiple(12);
         myScrollingValuePicker.getScrollView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -78,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 int value=AeroUtils.getRulerViewValueVertical(myScrollingValuePicker.getScrollView()
                         , l
                         , t-(t* AeroUtils.dip2px(MainActivity.this,200)/ scrollHeight)
-                        , MAX_VALUE
-                        , MIN_VALUE,myScrollingValuePicker.getViewMultipleSize(),1);
+                        , myScrollingValuePicker.getMaxValue()
+                        , myScrollingValuePicker.getMinValue(),myScrollingValuePicker.getViewMultipleSize(),1);
                 int feet=value/12;
                 int inch=value-(feet*12);
                 rulerText.setText(String.format(Locale.US,"%d'%d\"",feet,inch));
@@ -92,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 int value=AeroUtils.getValueAndScrollItemToAnchorVertical(myScrollingValuePicker.getScrollView()
                         , l
                         , t-(t* AeroUtils.dip2px(MainActivity.this,200)/ scrollHeight)
-                        , MAX_VALUE
-                        , MIN_VALUE
+                        , myScrollingValuePicker.getMaxValue()
+                        , myScrollingValuePicker.getMinValue()
                         , myScrollingValuePicker.getViewMultipleSize());
                 int feet=value/12;
                 int inch=value-(feet*12);
