@@ -245,4 +245,13 @@ public class AeroRulerHeightPicker extends FrameLayout {
         this.valueTypeMultiple = valueTypeMultiple;
         aeroRulerView.setMultipleTypeValue(valueTypeMultiple);
     }
+
+    public boolean isMatric() {
+        return matric;
+    }
+
+    public void setMatric(boolean matric) {
+        this.matric = matric;
+        aeroRulerView.setMatric(this.matric);
+    }
 }
