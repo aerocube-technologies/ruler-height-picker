@@ -30,7 +30,13 @@ public class AeroUtils {
 
         float oneValue = (float) view.getHeight() * multipleSize / (MAX_VALUE - MIN_VALUE);
         int value = (int) (t / oneValue) + (int) MIN_VALUE;
+        int offset = (int) (t % oneValue);
 
+
+        if (offset > oneValue / 2) {
+            value += 1;
+
+        }
 
         if (value > MAX_VALUE) {
             value = (int) MAX_VALUE;

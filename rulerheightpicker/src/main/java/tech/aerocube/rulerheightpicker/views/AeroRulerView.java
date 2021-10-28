@@ -20,11 +20,7 @@ public class AeroRulerView extends View {
     private Paint paint;
     private Paint paintLong;
     private Paint textPaint;
-    private DashPathEffect dashPathEffect;
-    private Path backGroundPath;
 
-    private float bigUnitLineHeight = 0f;
-    private float samllUnitLineHeight = 0f;
 
     private float MAX_DATA = 100;
     private float MIN_DATA = 0;
@@ -32,14 +28,10 @@ public class AeroRulerView extends View {
     private int viewHeight = 0;
     private int viewWidth = 0;
 
-    private int showRangeValue = 5;
-
     private int valueMultiple = 1;
 
-    private int displayNumberType = 1;
 
-    public static final int DISPLAY_NUMBER_TYPE_SPACIAL_COUNT = 1;
-    public static final int DISPLAY_NUMBER_TYPE_MULTIPLE = 2;
+
     private int valueTypeMultiple = 5;
 
     private int longWidthRatio = 10;
@@ -109,19 +101,12 @@ public class AeroRulerView extends View {
         return this;
     }
 
-    public AeroRulerView setMinMaxValue(float minValue, float maxValue) {
-        this.MIN_DATA = minValue;
-        this.MAX_DATA = maxValue;
-        return this;
-    }
-
     public AeroRulerView setValueMultiple(int valueMultiple) {
         this.valueMultiple = valueMultiple;
         return this;
     }
 
     public void setMultipleTypeValue(int valueTypeMultiple) {
-        this.displayNumberType = DISPLAY_NUMBER_TYPE_MULTIPLE;
         this.valueTypeMultiple = valueTypeMultiple;
     }
 
@@ -132,9 +117,14 @@ public class AeroRulerView extends View {
         viewWidth = getMeasuredWidth();
         float endpoint= (float) (viewWidth-(viewWidth*0.1));
         float viewInterval = (float) viewHeight / (MAX_DATA - MIN_DATA);
-        canvas.drawLine(0, 0, viewWidth / longWidthRatio * baseWidthRatio, 0, paint);
+        if (((int) (MIN_DATA) * valueMultiple) % valueTypeMultiple == 0) {
+            canvas.drawLine(endpoint, 0, endpoint - viewWidth / shortWidthRatio * baseWidthRatio, 0, paintLong);
+            canvas.drawText("" + ((int) (MIN_DATA) * valueMultiple)/(matric?1:12),  endpoint- viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),textPaint.getTextSize()*0.8f, textPaint);
+        }
+        else
+        canvas.drawLine(endpoint, 0, endpoint- viewWidth / longWidthRatio * baseWidthRatio, 0, paint);
         for (int i = 1; i < (MAX_DATA - MIN_DATA); i++) {
-            if (displayNumberType == DISPLAY_NUMBER_TYPE_MULTIPLE) {
+
                 if (((int) (i + MIN_DATA) * valueMultiple) % valueTypeMultiple == 0) {
                     canvas.drawLine(endpoint, viewInterval * i,  endpoint- viewWidth / shortWidthRatio * baseWidthRatio,viewInterval * i, paintLong);
                     canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/(matric?1:12),  endpoint- viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
@@ -142,16 +132,13 @@ public class AeroRulerView extends View {
                     canvas.drawLine( endpoint,viewInterval * i,  endpoint-viewWidth / longWidthRatio * baseWidthRatio,viewInterval * i, paint);
                 }
 
-            } else {
-                if (i % 5 == 0) {
-                    canvas.drawLine( endpoint, viewInterval * i, endpoint-viewWidth / shortWidthRatio * baseWidthRatio,viewInterval * i, paintLong);
-                    canvas.drawText("" + ((int) (i + MIN_DATA) * valueMultiple)/(matric?1:12),  endpoint-viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewInterval * i+textPaint.getTextSize()/3, textPaint);
-                } else {
-                    canvas.drawLine(endpoint, viewInterval * i,  endpoint-viewWidth / longWidthRatio * baseWidthRatio,viewInterval * i, paint);
-                }
-            }
         }
-        canvas.drawLine( endpoint,viewHeight,  endpoint-viewWidth / longWidthRatio * baseWidthRatio,viewHeight, paint);
+        if (((int) (MAX_DATA) * valueMultiple) % valueTypeMultiple == 0) {
+            canvas.drawLine(endpoint, viewHeight, endpoint - viewWidth / shortWidthRatio * baseWidthRatio, viewHeight, paintLong);
+            canvas.drawText("" + ((int) (MAX_DATA) * valueMultiple)/(matric?1:12),  endpoint- viewWidth / shortWidthRatio * baseWidthRatio - AeroUtils.sp2px(getContext(), 14),viewHeight-textPaint.getTextSize()/3, textPaint);
+        }
+        else
+            canvas.drawLine(endpoint, viewHeight, endpoint- viewWidth / longWidthRatio * baseWidthRatio, viewHeight, paint);
 
         super.onDraw(canvas);
     }

@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="init_value" format="integer" />
     <attr name="min_value" format="integer" />
     <attr name="max_value" format="integer" />
-    <attr name="ruler_multiple_size" format="float" />
+    <attr name="spacing_multiplier" format="float" />
     <attr name="value_multiple" format="integer" />
     <attr name="value_type_multiple" format="integer" />
     <attr name="matric" format="boolean"/>
+    <attr name="small_line_color" format="color"/>
+    <attr name="large_line_color" format="color"/>
+    <attr name="indicator" format="reference"/>
+    <attr name="indicator_movement" format="integer"/>
     <declare-styleable name="AeroRulerHeightPicker">
+        <attr name="init_value"/>
         <attr name="min_value"/>
         <attr name="max_value" />
-        <attr name="ruler_multiple_size" />
+        <attr name="spacing_multiplier" />
         <attr name="value_multiple"/>
         <attr name="value_type_multiple"/>
         <attr name="matric"/>
+        <attr name="small_line_color"/>
+        <attr name="large_line_color"/>
+        <attr name="indicator"/>
+        <attr name="indicator_movement"/>
     </declare-styleable>
 </resources>

@@ -2,43 +2,67 @@ package tech.aerocube.heightpickerexample;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.Locale;
 
 import tech.aerocube.rulerheightpicker.views.AeroRulerHeightPicker;
-import tech.aerocube.rulerheightpicker.views.AeroUtils;
-import tech.aerocube.rulerheightpicker.views.ObservableScrollView;
 
 
 public class MainActivity extends AppCompatActivity {
     private AeroRulerHeightPicker myScrollingValuePicker;
 
     private TextView rulerText;
-    private View indicator;
-    private int scrollHeight =0;
-    private float lastValue=0;
+
+    MaterialButtonToggleGroup toggleGroup;
+    boolean matric=true;
+    float lastvalue=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         rulerText = (TextView) findViewById(R.id.rulerview_value);
-        indicator=findViewById(R.id.indicator);
-
         initRulerView();
+        toggleGroup=findViewById(R.id.toggleButton);
+        toggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if(checkedId==R.id.cm){
+                    switchToCM();
+                }
+                if(checkedId==R.id.ft){
+                    switchToFT();
+                }
+            }
+        });
+
+    }
+
+    private void switchToFT() {
+        myScrollingValuePicker.setMaxValue(120);
+        myScrollingValuePicker.setMinValue(39);
+        myScrollingValuePicker.setValueTypeMultiple(12);
+        myScrollingValuePicker.setMatric(false);
+        matric=false;
+        myScrollingValuePicker.initializeView(this,true);
+    }
+
+    private void switchToCM() {
+        myScrollingValuePicker.setMaxValue(250);
+        myScrollingValuePicker.setMinValue(100);
+        myScrollingValuePicker.setValueTypeMultiple(5);
+        myScrollingValuePicker.setMatric(true);
+        matric=true;
+        myScrollingValuePicker.initializeView(this,true);
     }
 
     /**
@@ -46,55 +70,37 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initRulerView() {
         myScrollingValuePicker = findViewById(R.id.myScrollingValuePicker);
-        myScrollingValuePicker.getScrollView().setOnTouchListener(new View.OnTouchListener() {
+        myScrollingValuePicker.setHapticFeedbackEnabled(true);
+        myScrollingValuePicker.setOnAeroPickerScrollListener(new AeroRulerHeightPicker.OnAeroPickerScrollListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    myScrollingValuePicker.getScrollView().startScrollerTask();
+            public void onPickerScrolling(float value) {
+
+                if(!matric) {
+                    int feet = (int) (value / 12);
+                    int inch = (int) (value - (feet * 12));
+                    rulerText.setText(String.format(Locale.US, "%d'%d\"", feet, inch));
                 }
-                return false;
-            }
-        });
-
-
-        myScrollingValuePicker.setOnScrollChangedListener(new ObservableScrollView.OnScrollChangedListenerVertical() {
-
-            @Override
-            public void onScrollChanged(ObservableScrollView view, int l, int t) {
-                LinearLayout v= (LinearLayout) view.getChildAt(0);
-                scrollHeight =v.getChildAt(1).getMeasuredHeight()+ AeroUtils.dip2px(MainActivity.this,200);
-
-                ConstraintSet set=new ConstraintSet();
-                set.clone((ConstraintLayout) indicator.getParent());
-                set.setMargin(R.id.indicator,ConstraintSet.TOP,AeroUtils.dip2px(MainActivity.this,200)-(t* AeroUtils.dip2px(MainActivity.this,200)/ scrollHeight));
-                set.applyTo((ConstraintLayout) indicator.getParent());
-
-                int value=AeroUtils.getRulerViewValueVertical(myScrollingValuePicker.getScrollView()
-                        , l
-                        , t-(t* AeroUtils.dip2px(MainActivity.this,200)/ scrollHeight)
-                        , myScrollingValuePicker.getMaxValue()
-                        , myScrollingValuePicker.getMinValue(),myScrollingValuePicker.getViewMultipleSize(),1);
-                int feet=value/12;
-                int inch=value-(feet*12);
-                rulerText.setText(String.format(Locale.US,"%d'%d\"",feet,inch));
-
+                else{
+                    rulerText.setText(String.format(Locale.US, "%d", (int)value));
+                }
 
             }
 
             @Override
-            public void onScrollStopped(int l, int t) {
-                int value=AeroUtils.getValueAndScrollItemToAnchorVertical(myScrollingValuePicker.getScrollView()
-                        , l
-                        , t-(t* AeroUtils.dip2px(MainActivity.this,200)/ scrollHeight)
-                        , myScrollingValuePicker.getMaxValue()
-                        , myScrollingValuePicker.getMinValue()
-                        , myScrollingValuePicker.getViewMultipleSize());
-                int feet=value/12;
-                int inch=value-(feet*12);
-                rulerText.setText(String.format(Locale.US,"%d'%d\"",feet,inch));
-
+            public void onPickerStopped(float value) {
+                if(!matric) {
+                    int feet = (int) (value / 12);
+                    int inch = (int) (value - (feet * 12));
+                    rulerText.setText(String.format(Locale.US, "%d'%d\"", feet, inch));
+                }
+                else{
+                    rulerText.setText(String.format(Locale.US, "%d", (int)value));
+                }
             }
         });
+
+
+
     }
 
 

@@ -59,14 +59,14 @@ public class ObservableScrollView extends ScrollView {
         scrollerTask = new Runnable() {
             public void run() {
 
-                int newPosition = getScrollX();
+                int newPosition = getScrollY();
                 if (initialPosition - newPosition == 0) {//has stopped
 
                     if (mOnScrollChangedListenerVertical != null) {
                         mOnScrollChangedListenerVertical.onScrollStopped(getScrollX(), getScrollY());
                     }
                 } else {
-                    initialPosition = getScrollX();
+                    initialPosition = getScrollY();
                     ObservableScrollView.this.postDelayed(scrollerTask, newCheck);
                 }
             }

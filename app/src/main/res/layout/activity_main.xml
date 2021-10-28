@@ -6,7 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:singleSelection="true"
+        app:checkedButton="@id/cm"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/cm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CM"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+        <Button
+            android:id="@+id/ft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FT"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
 
@@ -14,11 +37,14 @@
         android:id="@+id/myScrollingValuePicker"
         android:layout_width="84dp"
         app:min_value="100"
-        app:max_value="250"
+        app:max_value="150"
+        app:init_value="125"
         app:value_multiple="1"
-        app:value_type_multiple="12"
-        app:ruler_multiple_size="2.0"
-        app:matric="false"
+        app:value_type_multiple="5"
+        app:spacing_multiplier="2"
+        app:matric="true"
+        app:indicator="@id/indicator"
+        app:indicator_movement="200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
